@@ -4,35 +4,42 @@ function getApi()
     const apiUrl = `https://api.lyrics.ovh/suggest/${lyricsText}`
     fetch(apiUrl)
    .then(response => response.json())
-   .then(data => displayUser(data))
+   .then(data => displaySuggestion(data))
       
 }
-  function displayUser(data){
+// show search result 
+  function displaySuggestion(data){
     document.getElementById("lyricsList").innerText = "";
     for (let i = 0; i < 10; i++) {
-        let abbumTitle = data.data[i].title;
+        let lyricsTitle = data.data[i].title;
         let artistName = data.data[i].artist.name;
-        let lyricsApi = `https://api.lyrics.ovh/v1/${artistName}/${abbumTitle}`;
+        let artistPicture = data.data[i].artist.picture_small;
+        albumTitle = data.data[i].album.title;
+        let albumCover = data.data[i].album.cover_small;
+
+        let lyricsApi = `https://api.lyrics.ovh/v1/${artistName}/${lyricsTitle}`;
         const div = document.createElement("div");
         const lyricsList = document.getElementById("lyricsList");
-        //div.innerHTML = `<p class="author lead"><strong id="albumTitle">  ${abbumTitle} </strong> Album by<span id="artistName">  ${artistName}  </span> <button class="btn btn-success" onclick = 'getLyrics("${lyricsApi}")'> Get Lyrics</button> </p>`; 
-
-        
+        document.getElementById("lyricsList").style.display = "block";     
         div.innerHTML = `<div class="single-result row align-items-center my-3 p-3">
-                          <div class="col-md-9">
-                              <h3 class="lyrics-name">${abbumTitle}</h3>
-                              <p class="author lead">Album by <span>${artistName}</span></p>
-                          </div>
-                          <div class="col-md-3 text-md-right text-center">
-                              <button class="btn btn-success" onclick = 'getLyrics("${lyricsApi}")' >Get Lyrics</button>
-                          </div>
-                      </div>`
+              <div class="col-md-5">
+                  <h3 class="lyrics-name">${lyricsTitle}</h3>
+                  <p class="author lead">Album by <span>${artistName}</span></p>
+              </div>
+              <div class="col-md-4 lyrics-photo">
+                <img src="${artistPicture}" alt="Cover photo">
+                <img src="${albumCover}" alt="photo">
+              </div>
 
-
+              <div class="col-md-3 text-md-right text-center">
+                  <button class="btn btn-success" onclick = 'getLyrics("${lyricsApi}")' >Get Lyrics</button>
+              </div>
+          </div>`
         lyricsList.appendChild(div);      
     }
-
   }
+
+  //get lyrics 
  function getLyrics(url){
     fetch(url)
     .then(response => response.json())
@@ -40,17 +47,9 @@ function getApi()
       {
         let getLyrics = document.getElementById("getLyrics");
         getLyrics.innerHTML = data.lyrics;
+        document.getElementById("lyricsList").style.display = "none";
+        document.getElementById("songTitle").style.display = "block";
+        document.getElementById("songTitle").innerText = albumTitle;
       }
       )
   }
-//using map
-//    const userNames = data.data.map(data => {
-//     let albumTitle = data.title;
-//     let artistName = data.artist.name;
-//     return `${albumTitle} Album BY ${artistName}`;
-//  })
-// fetch(lyricsApi)
-//         .then(response => response.json())
-//         .then(data => {
-//             let lyrics = data;
-//         })

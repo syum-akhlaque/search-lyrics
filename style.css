@@ -38,4 +38,10 @@ body{
     background: rgba(255, 255, 255, 0.2);
     border-radius: 15px;
 }
-
+.lyrics-photo img{
+    border-radius: 50%;
+    padding-right: 10px;
+}
+#songTitle{
+    display: none;
+}
