@@ -14,7 +14,7 @@ function getApi()
         let lyricsTitle = data.data[i].title;
         let artistName = data.data[i].artist.name;
         let artistPicture = data.data[i].artist.picture_small;
-        albumTitle = data.data[i].album.title;
+        let albumTitle = data.data[i].album.title;
         let albumCover = data.data[i].album.cover_small;
 
         let lyricsApi = `https://api.lyrics.ovh/v1/${artistName}/${lyricsTitle}`;
@@ -32,7 +32,7 @@ function getApi()
               </div>
 
               <div class="col-md-3 text-md-right text-center">
-                  <button class="btn btn-success" onclick = 'getLyrics("${lyricsApi}")' >Get Lyrics</button>
+                <button class="btn btn-success" onclick = 'getLyrics("${lyricsApi}"," ${albumTitle}")' >Get Lyrics</button>
               </div>
           </div>`
         lyricsList.appendChild(div);      
@@ -40,7 +40,7 @@ function getApi()
   }
 
   //get lyrics 
- function getLyrics(url){
+ function getLyrics(url,albumTitle){
     fetch(url)
     .then(response => response.json())
     .then(data => 
